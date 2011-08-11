@@ -16,6 +16,11 @@ module Haddock
     # Paths used to detect default words files.
     PATHS = %w(/usr/share/dict/words /usr/share/words)
 
+    #TODO: move these out to file.txt and expand
+    ADJECTIVES = %w(reflective happy hungry light breathing handsome purple careful gifted mushy powerful mysterious itchy eager crooked immense loud hissing massive freezing heavy foolish internal ruthless)
+    ANIMALS = %w(badger horse squirrel cats beaver armadillo camel dingo fish hamster chipmunk crocodile cougar hedgehog pony shrew puma pocrupine platypus mustang sheep mongoose rabbit fox sloth stallion)
+
+
     @@delimiters = '`~!@#$%^&*()-_=+[{]}\\|;:\'",<.>/?'
 
     class << self
@@ -31,13 +36,19 @@ module Haddock
       #   Password.generate(8, {:use_numbers=>false} => "jack!man"
 
       def generate(length = DEFAULT, options = {})
-        unless defined? @@diction
-          self.diction = PATHS.find { |path| File.exist? path }
+        unless defined? @@diction or options[:animal]
+	  self.diction = PATHS.find { |path| File.exist? path }
         end
 	options = {
 	  :use_delimeter=>true, 
-	  :use_number=>true
+	  :use_number=>true,
+	  :animal => false,
+	  :variable_length=>false
         }.merge(options)
+	if length && length.to_s.upcase == "ANY"
+	  length = rand(DEFAULT)+DEFAULT 
+	  options[:variable_length] = true
+	end
 
         raise LengthError, "Invalid length" unless length.is_a? Integer
         raise LengthError, "Password length is too short" if length < MINIMUM
@@ -46,12 +57,20 @@ module Haddock
         words_limit = length * 0.75 # Ensure over-proportionate word lengths.
 
         begin
-          words = %W(#{random_word} #{random_delimiter if options[:use_delimeter]}#{random_word})
-          words_length = words.join.length
-	  return words.join if words_length == length && !options[:use_number]
+	  if options[:animal]
+            words = %W(#{random_adj} #{random_animal})
+	  else
+            words = %W(#{random_word} #{random_delimiter if options[:use_delimeter]}#{random_word})
+          end
+	  words_length = words.join.length
+	  return words.join if (words_length == length && !options[:use_number]) || options[:variable_length]
         end until words_length < length && words_length > words_limit && options[:use_number]
         
 	words.join random_number(length - words_length) if options[:use_number]
+      end
+
+      def generate_fun
+	generate("any", {:use_delimeter=>false, :use_number=>false, :animal=>true})
       end
 
       # Sets the dictionary. Uses "/usr/share/dict/words" or
@@ -74,7 +93,14 @@ module Haddock
       end
 
       private
+      def random_adj
+	ADJECTIVES[rand(ADJECTIVES.length)]
+      end
 
+      def random_animal
+	ANIMALS[rand(ANIMALS.length)].capitalize
+      end
+      
       def random_word
         @@diction[rand(@@diction.length)].chomp
       end

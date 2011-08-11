@@ -80,5 +80,10 @@ class TestHaddock < Test::Unit::TestCase
     assert_equal 10, password.length
   end
 
+  def test_can_generate_fun
+    password = Password.generate_fun
+    assert_instance_of String, password
+  end
+
 
 end

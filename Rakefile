@@ -3,6 +3,7 @@ require "rubygems"
 require "haddock"
 
 require "rake/testtask"
+require 'bundler/gem_tasks'
 
 desc "Default: run unit tests."
 task :default => :test
