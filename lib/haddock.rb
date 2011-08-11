@@ -16,9 +16,8 @@ module Haddock
     # Paths used to detect default words files.
     PATHS = %w(/usr/share/dict/words /usr/share/words)
 
-    #TODO: move these out to file.txt and expand
-    ADJECTIVES = %w(reflective happy hungry light breathing handsome purple careful gifted mushy powerful mysterious itchy eager crooked immense loud hissing massive freezing heavy foolish internal ruthless)
-    ANIMALS = %w(badger horse squirrel cats beaver armadillo camel dingo fish hamster chipmunk crocodile cougar hedgehog pony shrew puma pocrupine platypus mustang sheep mongoose rabbit fox sloth stallion)
+    ADJECTIVES = File.dirname(__FILE__) +"/adjectives.txt" 
+    ANIMALS = File.dirname(__FILE__) +"/animals.txt" 
 
 
     @@delimiters = '`~!@#$%^&*()-_=+[{]}\\|;:\'",<.>/?'
@@ -53,7 +52,10 @@ module Haddock
         raise LengthError, "Invalid length" unless length.is_a? Integer
         raise LengthError, "Password length is too short" if length < MINIMUM
         raise LengthError, "Password length is too long" if length > MAXIMUM
-
+	if options[:animal]
+	  @@animals = IO.readlines ANIMALS 
+	  @@adjectives = IO.readlines ADJECTIVES
+	end
         words_limit = length * 0.75 # Ensure over-proportionate word lengths.
 
         begin
@@ -94,11 +96,11 @@ module Haddock
 
       private
       def random_adj
-	ADJECTIVES[rand(ADJECTIVES.length)]
+	@@adjectives[rand(@@adjectives.length)].chomp
       end
 
       def random_animal
-	ANIMALS[rand(ANIMALS.length)].capitalize
+	@@animals[rand(@@animals.length)].chomp.capitalize
       end
       
       def random_word
