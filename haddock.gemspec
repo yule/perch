@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.summary = %q{A more memorable password generator, based on haddock by Stephen Celis}
   s.description = %q{A more memorable password generator. Swordfish? No, I got tired of that. I changed it. Extends Haddock. Gives some fun.}
 
-  s.files = [".autotest", "History.rdoc", "Manifest.txt", "README.rdoc", "Rakefile", "bin/ha-gen", "lib/haddock.rb", "test/names.txt", "test/test_haddock.rb"]
+  s.files = [".autotest", "History.rdoc", "Manifest.txt", "README.rdoc", "Rakefile", "bin/ha-gen", "lib/haddock.rb", "test/names.txt", "test/test_haddock.rb", "lib/animals.txt","lib/adjectives.txt"]
   s.executables = ["ha-gen"]
   s.default_executable = "ha-gen"
   s.require_paths = ["lib"]
