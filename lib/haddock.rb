@@ -21,15 +21,23 @@ module Haddock
     class << self
       # Generates a more memorable password. Its one optional argument
       # determines the length of the generated password, and cannot be less
-      # than 8 or greater than 31 characters (default: 12).
+      # than 8 or greater than 31 characters (default: 12). Allows simplification
+      # with options
       #
       #   Password.generate     # => "bowl9&bracky"
       #   Password.generate(30) # => "Phlebotomus2473?nonconditioned"
       #   Password.generate(8)  # => "amy7@rax"
-      def generate(length = DEFAULT)
+      #   Password.generate(8, {:use_delimeter=>false} => "bonk5and"
+      #   Password.generate(8, {:use_numbers=>false} => "jack!man"
+
+      def generate(length = DEFAULT, options = {})
         unless defined? @@diction
           self.diction = PATHS.find { |path| File.exist? path }
         end
+	options = {
+	  :use_delimeter=>true, 
+	  :use_number=>true
+        }.merge(options)
 
         raise LengthError, "Invalid length" unless length.is_a? Integer
         raise LengthError, "Password length is too short" if length < MINIMUM
@@ -38,11 +46,12 @@ module Haddock
         words_limit = length * 0.75 # Ensure over-proportionate word lengths.
 
         begin
-          words = %W(#{random_word} #{random_delimiter}#{random_word})
+          words = %W(#{random_word} #{random_delimiter if options[:use_delimeter]}#{random_word})
           words_length = words.join.length
-        end until words_length < length && words_length > words_limit
-
-        words.join random_number(length - words_length)
+	  return words.join if words_length == length && !options[:use_number]
+        end until words_length < length && words_length > words_limit && options[:use_number]
+        
+	words.join random_number(length - words_length) if options[:use_number]
       end
 
       # Sets the dictionary. Uses "/usr/share/dict/words" or

@@ -63,4 +63,22 @@ class TestHaddock < Test::Unit::TestCase
       Password.diction = nil
     end
   end
+
+  def test_allows_non_delimiters
+    Password.delimiters = "#"
+    password = Password.generate(10, {:use_delimeter=>false})
+    assert_no_match /\#/, password
+  end
+
+  def test_allows_non_numbers
+    password = Password.generate(10, {:use_number=>false})
+    assert_no_match /\d/, password
+  end 
+
+  def test_length_persists_without_numbers_or_delimeters
+    password = Password.generate(10, {:use_number=>false, :use_delimeter=>false})
+    assert_equal 10, password.length
+  end
+
+
 end
