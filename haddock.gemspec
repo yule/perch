@@ -2,9 +2,9 @@ Gem::Specification.new do |s|
   s.date = "2011-08-11"
 
   s.name = "perch"
-  s.version = "0.2.3"
-  s.summary = %q{A more memorable password generator, based on haddock}
-  s.description = %q{A more memorable password generator. Swordfish? No, I got tired of that. I changed it.}
+  s.version = "0.2.4"
+  s.summary = %q{A more memorable password generator, based on haddock by Stephen Celis}
+  s.description = %q{A more memorable password generator. Swordfish? No, I got tired of that. I changed it. Extends Haddock. Gives some fun.}
 
   s.files = [".autotest", "History.rdoc", "Manifest.txt", "README.rdoc", "Rakefile", "bin/ha-gen", "lib/haddock.rb", "test/names.txt", "test/test_haddock.rb"]
   s.executables = ["ha-gen"]
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
 
   s.author = "Stephen Celis, Paul Brennan"
   s.email = "stephen@stephencelis.com"
-  s.homepage = "http://github.com/yule/haddock"
+  s.homepage = "http://github.com/yule/perch"
   s.rubyforge_project = "haddock"
 end

@@ -22,6 +22,11 @@ OptionParser.new do |opts|
     @length = value
   end
 
+  opts.on("-a", "--fun")
+    @fun = true
+  end
+
+
   opts.on("-f", "--words [words file]") do |value|
     Password.diction = value
   end
@@ -32,7 +37,11 @@ OptionParser.new do |opts|
 
   begin
     opts.parse!
-    puts @length ? Password.generate(@length) : Password.generate
+    if @fun 
+      Password.generate_fun
+    else
+      puts @length ? Password.generate(@length) : Password.generate
+    end
   rescue OptionParser::ParseError, Password::LengthError => error
     warn "#{File.basename($0)}: #{error.message} " +
       "(must be between #{Password::MINIMUM} and #{Password::MAXIMUM})."
