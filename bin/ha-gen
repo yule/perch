@@ -22,7 +22,7 @@ OptionParser.new do |opts|
     @length = value
   end
 
-  opts.on("-a", "--fun")
+  opts.on("-a", "--fun") do
     @fun = true
   end
 
