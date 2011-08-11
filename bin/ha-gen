@@ -38,7 +38,7 @@ OptionParser.new do |opts|
   begin
     opts.parse!
     if @fun 
-      Password.generate_fun
+      puts Password.generate_fun
     else
       puts @length ? Password.generate(@length) : Password.generate
     end
