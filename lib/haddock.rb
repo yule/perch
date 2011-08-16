@@ -39,7 +39,7 @@ module Haddock
 	  self.diction = PATHS.find { |path| File.exist? path }
         end
 	options = {
-	  :use_delimeter=>true, 
+	  :use_delimiter=>true, 
 	  :use_number=>true,
 	  :animal => false,
 	  :variable_length=>false
@@ -48,7 +48,6 @@ module Haddock
 	  length = rand(DEFAULT)+DEFAULT 
 	  options[:variable_length] = true
 	end
-
         raise LengthError, "Invalid length" unless length.is_a? Integer
         raise LengthError, "Password length is too short" if length < MINIMUM
         raise LengthError, "Password length is too long" if length > MAXIMUM
@@ -62,7 +61,7 @@ module Haddock
 	  if options[:animal]
             words = %W(#{random_adj} #{random_animal})
 	  else
-            words = %W(#{random_word} #{random_delimiter if options[:use_delimeter]}#{random_word})
+            words = %W(#{random_word} #{random_delimiter if options[:use_delimiter]}#{random_word})
           end
 	  words_length = words.join.length
 	  return words.join if (words_length == length && !options[:use_number]) || options[:variable_length]
@@ -72,7 +71,7 @@ module Haddock
       end
 
       def generate_fun
-	generate("any", {:use_delimeter=>false, :use_number=>false, :animal=>true})
+	generate("any", {:use_delimiter=>false, :use_number=>false, :animal=>true})
       end
 
       # Sets the dictionary. Uses "/usr/share/dict/words" or

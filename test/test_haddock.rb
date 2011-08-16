@@ -66,7 +66,7 @@ class TestHaddock < Test::Unit::TestCase
 
   def test_allows_non_delimiters
     Password.delimiters = "#"
-    password = Password.generate(10, {:use_delimeter=>false})
+    password = Password.generate(10, {:use_delimiter=>false})
     assert_no_match /\#/, password
   end
 
@@ -76,7 +76,7 @@ class TestHaddock < Test::Unit::TestCase
   end 
 
   def test_length_persists_without_numbers_or_delimeters
-    password = Password.generate(10, {:use_number=>false, :use_delimeter=>false})
+    password = Password.generate(10, {:use_number=>false, :use_delimiter=>false})
     assert_equal 10, password.length
   end
 
