@@ -1,7 +1,13 @@
-= haddock
+= Perch
+Wrapper around haddock:
 
 http://github.com/stephencelis/haddock
 
+Adds in the animal feature!
+
+Password.generate_fun  # => "bouncingWombat"
+
+Haddock Readme below:
 
 == DESCRIPTION
 
